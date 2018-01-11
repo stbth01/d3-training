@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Assignment 3 Viz 1</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
     </head>
 
     <body>
@@ -8,20 +9,61 @@
 
         </div>
 
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <svg width="200px" height="200px">
-            <rect x="10" y="10" width="100px" height="20px" style="fill:blue"/>
+        <script type="text/javascript">
 
-            <circle cx="20" cy="80" r="10" stroke="blue" stroke-width="2px" fill="orange"/>
-            <circle cx="60" cy="80" r="20" stroke="blue" stroke-width="2px" fill="orange"/>
-            <circle cx="130" cy="80" r="40" stroke="blue" stroke-width="2px" fill="orange"/>
+        //Width and height
+        var w = 200;
+        var h = 200;
+        
+        var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
 
-            <polygon points="60,150 80,150 94,164 94,184 80,198 60,198 46,184 46,164"/>
+        var rect = svg.selectAll("rect")
+            .data([1])
+            .enter()
+            .append("rect")
+
+        rect.attr("x",10)
+            .attr("y",10)
+            .attr("width",100)
+            .attr("height",20)
+            .attr("fill","blue")
+
+        var circles = svg.selectAll("circle")
+                .data([1,2,4])
+                .enter()
+                .append("circle")
+
+        circles.attr("cx", function(d, i) {
+                return (i * 60) + 25;
+            })
+            .attr("cy", h/2)
+            .attr("r", function(d) {
+                return d*10;
+            })
+            .attr("fill", "orange")
+            .attr("stroke","blue")
+            .attr("stroke-width", "2px");
 
 
-        </svg>
-        <!-- <script>
-            d3.select('#my-viz').html('Hello world');
-        </script> -->
+        var polygon = svg.selectAll("polygon")
+            .data([1])
+            .enter()
+            .append("polygon")
+
+        polygon.attr("points","60,150 80,150 94,164 94,184 80,198 60,198 46,184 46,164")
+        
+        // <svg width="200px" height="200px">
+        //     <rect x="10" y="10" width="100px" height="20px" style="fill:blue"/>
+
+        //     <circle cx="20" cy="80" r="10" stroke="blue" stroke-width="2px" fill="orange"/>
+        //     <circle cx="60" cy="80" r="20" stroke="blue" stroke-width="2px" fill="orange"/>
+        //     <circle cx="130" cy="80" r="40" stroke="blue" stroke-width="2px" fill="orange"/>
+
+        //     <polygon points="60,150 80,150 94,164 94,184 80,198 60,198 46,184 46,164"/>
+
+        </script>
     </body>
 </html>
