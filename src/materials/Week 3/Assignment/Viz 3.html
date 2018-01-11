@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Assignment 3 Viz 2</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+    </head>
+
+    <body>
+        <div id="my-viz">
+
+        </div>
+
+        <script type="text/javascript">
+			//Width and height
+			var w = 1250;
+			var h = 400;
+
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            function updateViz(data) {		
+
+                var circles = svg.selectAll("circle")
+                    .data(data)
+                
+                circles
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d) {
+                        return Math.random() * w;
+                    })
+                    .attr("cy", function(d) {
+                            return Math.random() * h;
+                        })
+                    .attr("r", function(d) {
+                            return d.size;
+                    })
+                    .attr("stroke", function(d){
+                            return d.color
+                            });
+                circles
+                    .exit()
+                    .remove()
+
+        }
+
+        function animate(data) {
+            updateViz(data);
+            var loop = setInterval(function() { 
+                if (data.length === 0) { clearInterval(loop); }
+                data.pop();
+                updateViz(data);
+            }, 2000);
+        }
+			
+		d3.json("data.json", function(data){
+            animate(data)  
+        });
+
+
+		</script>
+    </body>
+</html>
