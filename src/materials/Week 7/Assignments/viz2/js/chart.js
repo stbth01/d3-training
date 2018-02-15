@@ -1,9 +1,9 @@
 function buildChart(containerId) {
     // size globals
-    var width = 960;
+    var width = 2000;
     var height = 500;
     var legandSize = 15;
-    var scaleProj = 100;
+    var scaleProj = 400;
 
     var margin = {
         top: 50,
@@ -93,7 +93,7 @@ function buildChart(containerId) {
         var albersUsaProj = d3
             .geoAlbersUsa()
             .scale(scaleProj)
-            .translate([innerWidth / 2, innerHeight / 2]);
+            .translate([innerWidth / 8, innerHeight / 2]);
 
 
 
@@ -130,7 +130,7 @@ function buildChart(containerId) {
             .enter()
             .append('g')
             .attr('class', 'mapGroup')
-            .attr('transform', (d, i) => 'translate('+100 *i+',0)');
+            .attr('transform', (d, i) => 'translate('+300 *i+',0)');
 
 
         mapGroup
