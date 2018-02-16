@@ -2,7 +2,7 @@ function buildChart(containerId) {
     // size globals
     var width = 2000;
     var height = 500;
-    var legandSize = 15;
+    var legendSize = 15;
     var scaleProj = 400;
 
     var margin = {
@@ -85,53 +85,127 @@ function buildChart(containerId) {
 
     function draw(geojson, cnt) {
 
+        var colorScheme = d3.schemeBlues[9];
 
-        var colorScale = d3.scaleThreshold()
-            .domain(d3.range(0, d3.max(cnt, (d)=> +d.Percent)))
-            .range(d3.schemeBlues[9]);
+
+        var colorScale = d3.scaleLinear()
+            .domain(linspace(0, d3.max(cnt, (d)=> +d.Percent), colorScheme.length))
+            .range(colorScheme);
+
+        var legendScale = d3.scaleLinear()
+            .domain([0, d3.max(cnt, (d)=> +d.Percent)])
+            .range([ 0,innerHeight]);
+
 
         var albersUsaProj = d3
             .geoAlbersUsa()
             .scale(scaleProj)
             .translate([innerWidth / 8, innerHeight / 2]);
 
-
-
         var path = d3.geoPath().projection(albersUsaProj);
 
+        var legendWidth = 15 ;
+
         var legend = g
-        .selectAll('.legand')
-        .data(colorScale.domain())
-        .enter()
-        .append('g')
-        .attr('class', 'legend')
-        .attr('transform', function(d, i) {
-          var height = legandSize;
-          var x = 5;
-          var y = i * height;
-          return 'translate(' + x + ',' + y + ')';
+            .append('g')
+            .attr('width', legendWidth)
+            .attr('height', innerHeight)
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+
+        var linearGradient = legend
+            .append('defs')
+            .append("linearGradient")
+            .attr("id", "linear-gradient")
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "0%")
+            .attr("y2", "100%");
+
+        var pct = linspace(0, d3.max(cnt, (d)=> +d.Percent), colorScheme.length).map(function(d) {
+                return Math.round(d) + '%';
+            });
+
+        var colourPct = d3.zip(pct, colorScheme);
+
+
+        colourPct.forEach(function(d) {
+            linearGradient.append('stop')
+                .attr('offset', d[0])
+                .attr('stop-color', d[1])
+                .attr('stop-opacity', 1);
         });
 
         legend.append('rect')
-            .attr('width', legandSize)
-            .attr('height', legandSize)
-            .style('fill', colorScale)
-            .style('stroke', colorScale);
-        
-        legend.append('text')
-            .attr('x', legandSize + 5)
-            .attr('y', legandSize - 5)
-            .text(function(d) { return d; });
+            .attr('x1', 0)
+            .attr('y1', 0)
+            .attr('width', legendWidth)
+            .attr('height', innerHeight)
+            .style('fill', 'url(#linear-gradient)');
 
+        var legendAxis = d3.axisRight(legendScale)
+            // .tickValues(d3.range(0, d3.max(cnt, (d)=> +d.Percent)))
+            // .tickFormat(d3.format("d"))
+
+        
+        legend.append("g")
+            .attr("class", "legend axis")
+            .attr("transform", "translate(" + legendWidth + ", 0)")
+            .call(legendAxis);
+
+        var yearList = ['2012', '2013', '2014', '2015']
 
         var mapGroup = g
             .selectAll('.mapGroup')
-            .data(['2012', '2013', '2014', '2015'])
+            .data(yearList)
             .enter()
             .append('g')
             .attr('class', 'mapGroup')
-            .attr('transform', (d, i) => 'translate('+300 *i+',0)');
+            .attr('transform', (d, i) => 'translate('+ 300 *i +',0)');
 
+         g
+            // .selectAll('text')
+            // .data(yearList)
+            // .enter()
+            .append('text')
+            .attr('class', 'title')
+            .attr('x',  200)//(d, i) =>  (300 *i)/2)
+            .attr('y', 100)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'baseline')
+            .style('font-size', 24)
+            .text( '2012')//(d) => d);
+
+            g
+            .append('text')
+            .attr('class', 'title')
+            .attr('x',  500)
+            .attr('y', 100)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'baseline')
+            .style('font-size', 24)
+            .text( '2013')
+            
+            
+            g
+            .append('text')
+            .attr('class', 'title')
+            .attr('x',  800)
+            .attr('y', 100)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'baseline')
+            .style('font-size', 24)
+            .text( '2014')
+            
+            g
+            .append('text')
+            .attr('class', 'title')
+            .attr('x',  1100)
+            .attr('y', 100)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'baseline')
+            .style('font-size', 24)
+            .text( '2015')
 
         mapGroup
             .selectAll('path')
@@ -145,6 +219,21 @@ function buildChart(containerId) {
             })
             .style('stroke', 'black')
             .style('stroke-width', 0.5)
+
+
+        function linspace(start, end, n) {
+                var out = [];
+                var delta = (end - start) / (n - 1);
+        
+                var i = 0;
+                while(i < (n - 1)) {
+                    out.push(start + (i * delta));
+                    i++;
+                }
+        
+                out.push(end);
+                return out;
+            }
     }
 
 
