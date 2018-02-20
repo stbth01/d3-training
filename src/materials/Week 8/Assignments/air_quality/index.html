@@ -1,0 +1,26 @@
+<html>
+
+    <head>
+        <title>Assignment 4 Viz 2</title>
+        <link rel="stylesheet" href="./css/styles.css" />
+
+    </head>
+
+    <body>
+        <div id="chart-holder"></div>
+        <form id="radio-buttons">
+            <input type="radio" id="states" name="order" value="states" checked >
+           <label for="states">Sort By State</label>
+
+           <input type="radio" id="emissionsDes" name="order" value="emissionsDes" >
+           <label for="emissionsDes">Sort By Emissions Descending</label>
+
+           <input type="radio" id="emissionsAsc" name="order" value="emissionsAsc" >
+           <label for="emissionsAsc">Sort By Emissions Ascending</label>
+        </form>
+
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="./js/air_quality.js"></script>
+    </body>
+
+</html>
