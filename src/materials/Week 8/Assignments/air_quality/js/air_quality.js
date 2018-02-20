@@ -28,6 +28,7 @@ function buildChart(containerId) {
 
     var xScale;
     var yScale;
+    var xAxis;
     // append all of your chart elements to g
     d3.csv('data/air_quality.csv', function(error, data) {
         // handle read errors
@@ -44,6 +45,12 @@ function buildChart(containerId) {
         
     d3.select('#radio-buttons').on('click', () => {
         var order;
+        var delayLength = +this.delay.value;
+
+        if(isNaN(delayLength)) {
+            alert("Please enter a Numeric Value");
+            return;
+        }
         
         if(this.states.checked) {
             order = 'state';
@@ -69,6 +76,7 @@ function buildChart(containerId) {
             .data(data)
             .transition()
             .duration(1500)
+            .delay(function (d,i) {return delayLength*i})
             .attr('x', (d) =>
                 xScale(d.State)
             )
@@ -78,6 +86,12 @@ function buildChart(containerId) {
             .attr('height', (d) =>
                 innerHeight - yScale(d.Emissions)
             )
+
+        g.selectAll('.x-axis')
+            .transition()
+            .duration(1500)
+            .delay(function (d,i) {return delayLength*i})
+            .call(d3.axisBottom(xScale))
      })
 
     });
@@ -141,7 +155,7 @@ function buildChart(containerId) {
             .domain(region)
             .range(colorScheme);
 
-        var xAxis = d3.axisBottom(xScale);
+        xAxis = d3.axisBottom(xScale);
         var yAxis = d3.axisLeft(yScale);
 
         g
@@ -154,7 +168,7 @@ function buildChart(containerId) {
             .append('g')
             .attr('class', 'y-axis')
             .call(yAxis);
-            
+
         g
             .selectAll('.bar')
             .data(data)
