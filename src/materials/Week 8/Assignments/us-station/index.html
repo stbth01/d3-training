@@ -1,0 +1,32 @@
+<html>
+
+    <head>
+        <title>Assignment 6 Viz 1</title>
+        <link rel="stylesheet" href="./css/styles.css" />
+
+    </head>
+
+    <body>
+        
+        <div id="checkboxes">
+            <label>Select Classes</label>
+            <ul>
+              <li><input id='one' type="checkbox" checked>Class 1</li>
+              <li><input id='two' type="checkbox" checked>Class 2</li>
+              <li><input id='three' type="checkbox" checked>Class 3</li>
+            </ul>
+        </div>
+        <label>Min</label>
+        <input type="input" id="min">
+        <label>Max</label>
+        <input type="input" id="max">
+
+        <button id='submit'>Submit</button>
+        <div id="chart-holder"></div>
+
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://d3js.org/topojson.v2.min.js"></script>
+        <script src="./js/us-station.js"></script>
+    </body>
+
+</html>
