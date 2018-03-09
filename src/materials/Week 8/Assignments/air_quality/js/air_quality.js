@@ -86,6 +86,9 @@ function buildChart(containerId) {
             .attr('height', (d) =>
                 innerHeight - yScale(d.Emissions)
             )
+            .attr('fill', (d) =>
+            coloreScale(d.Region)
+        )
 
         g.selectAll('.x-axis')
             .transition()

@@ -1,0 +1,12 @@
+body {
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.x-axis-label {
+    font-size: 20;
+}
+
+.y-axis-label {
+    font-size: 20;
+}
