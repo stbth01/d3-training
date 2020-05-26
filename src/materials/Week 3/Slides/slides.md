@@ -1,51 +1,40 @@
-## D3 Fundamentals
-
-===
-
-## Review
-
-[Assignment 2](materials/Week 2/Assignment)
-
-Notes:
-
-* Going over critiques of visualizations from homework
-* Ask for questions on reading
-
-===
-
-## Web Concepts
+## Web Concepts: HTML, CSS, and JavaScript
 
 ---
 
 ### 3 Components
 
-* **HTML**: Content and structure
-* **CSS**: Appearance
-* **JavaScript**: Dynamism and interaction
+- **HTML**: Content and structure
+- **CSS**: Appearance
+- **JavaScript**: Dynamism and interaction
 
 Notes:
 
-* JavaScript is actually taking over a lot of the domain once covered by HTML and CSS
-  * JS can generate HTML & CSS too
-  * Front-end frameworks
+- JavaScript is actually taking over a lot of the domain once covered by HTML and CSS
+  - JS can generate HTML & CSS too
+  - Front-end frameworks
 
 ---
 
 ### HTML
 
-The core of the DOM
+Basic structure
 
-* Tags
-* Attributes
-* Text
+Example (index.html)
 
-```html
-<div class="my-class">Hello world</div>
-```
+---
+
+### DOM
+
+Document Object Model: should be thought of as an API into your document.
+
+<img class="img" src="materials/Week 3/Slides/resources/ExampleDOM.png" style="width:80%">
 
 ---
 
 ### CSS
+
+Casading Style Sheets: Add style and much more
 
 <div style="font-size: 0.5em">Inline Styles</div>
 
@@ -57,9 +46,9 @@ The core of the DOM
 
 ```html
 <style>
-.my-class {
+  .my-class {
     color: red;
-}
+  }
 </style>
 <div class="my-class">Hello world</div>
 ```
@@ -67,13 +56,13 @@ The core of the DOM
 <div style="font-size: 0.5em">External Style Sheet</div>
 
 ```html
-<link rel="styles.css">
+<link rel="styles.css" />
 <div class="my-class">Hello world</div>
 ```
 
 ```css
 .my-class {
-    color: red;
+  color: red;
 }
 ```
 
@@ -81,44 +70,101 @@ The core of the DOM
 
 ### JavaScript
 
-* Dynamically typed language used to manipulate the DOM
+- High level, single threaded, garbage collected, interpreted, or just in time compiled, prototype based, multi-paradigm, dynamic language with a non-blocking loop
+
+---
+
+### High level
+
+Relative to the hardware, lowest level is machine code.
+
+---
+
+### Single threaded
+
+There is one event loop. This is really imporant for a lot of what we do in the web
+
+Great Talk: https://www.youtube.com/watch?v=8aGhZQkoFbQ
+
+---
+
+### Garbage collected
+
+Memory management, this process is obfuscated from us.
+
+---
+
+### Interpreted, or just in time (JIT) compiled
+
+The computer runs the code line by line each time (sort of). JIT compiles just before runing but there is executeable that can passed around.
+
+https://www.upwork.com/hiring/development/the-basics-of-compiled-languages-interpreted-languages-and-just-in-time-compilers/
+
+---
+
+### Prototype based
+
+Class extention all the way up. Every object has a prototype, which allows us to re-use functionality by attaching it to the prototype.
+
+---
+
+### Multi-paradigm
+
+JS doesn't lock us into Imperative (OOP, procedural, parallel processing) or Declarative (Logic, Functional, database)
+
+https://medium.com/javascript-in-plain-english/what-are-javascript-programming-paradigms-3ef0f576dfdb
+
+---
+
+### Dynamic language
+
+No types.
+
+```
+let x = 'a';
+x = 1;
+```
+
+---
+
+### Non-blocking loop
+
+Asynchronous
+
+---
+
+- Used to manipulate the DOM
 
 ```js
 document.querySelector('body').append('<p>Hello world</p>');
 ```
 
-* Or add interaction and <span id="dynamic">dynamic content</span>
+- Or add interaction and <span id="dynamic">dynamic content</span>
 
 ```js
-document.getElementById('dynamic').onclick = function() {
-    var i = 21;
-    var mult = 1;
-    setInterval(function() {
-        if (i === 60) mult = -1;
-        if (i === 20) mult = 1;
-        mult === 1 ? i++ : i--;
-        document
-            .getElementById('dynamic')
-            .setAttribute('style', 'position:fixed; top: 40%; left:' + i + '%');
-    }, 20);
+document.getElementById('dynamic').onclick = function () {
+  var i = 21;
+  var mult = 1;
+  setInterval(function () {
+    if (i === 60) mult = -1;
+    if (i === 20) mult = 1;
+    mult === 1 ? i++ : i--;
+    document.getElementById('dynamic').setAttribute('style', 'position:fixed; top: 40%; left:' + i + '%');
+  }, 20);
 };
 ```
-
-Notes:
-
-* Can do much more than DOM manipulation, but that's the original purpose and the main thing we'll use it for in this class
 
 ---
 
 ### Asynchrony in JS
 
-* Code doesn't always execute 'in order'
+- Code doesn't always execute 'in order'
 
 ```js
 console.log('Mathematica');
 
-setTimeout(function() {
-    console.log('Policy');
+setTimeout(function () {
+  console.log('Policy');
 });
 
 console.log('Research');
@@ -126,8 +172,8 @@ console.log('Research');
 
 Note:
 
-* Talk about reasoning behind this
-* Always be aware
+- Talk about reasoning behind this
+- Always be aware
 
 ===
 
@@ -137,24 +183,24 @@ Note:
 
 ### What is D3?
 
-* Front-end Javascript library
-* Uses data from JS to manupulate the DOM
-* Primarily used with SVG
+- Front-end Javascript library
+- Uses data from JS to manupulate the DOM
+- Primarily used with SVG
 
 ---
 
 ### What isn't D3?
 
-* A graphing or charting library
-  * e.g. no 'bar chart' function
-* Something you need to install
-* Simple
+- A graphing or charting library
+  - e.g. no 'bar chart' function
+- Something you need to install
+- Simple
 
 Notes:
 
-* Lots of charting libraries exist out there, many build on top of D3
-* Runs in the browser, just like all JS code
-* Lots of complexity
+- Lots of charting libraries exist out there, many build on top of D3
+- Runs in the browser, just like all JS code
+- Lots of complexity
 
 ===
 
@@ -166,33 +212,31 @@ index.html
 
 ```html
 <html>
-    <head>
-        <title>Dev Env</title>
+  <head>
+    <title>Dev Env</title>
 
-        <style>
-            #my-viz {
-                color: red;
-            }
-        </style>
-    </head>
+    <style>
+      #my-viz {
+        color: red;
+      }
+    </style>
+  </head>
 
-    <body>
-        <div id="my-viz">
+  <body>
+    <div id="my-viz"></div>
 
-        </div>
-
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script>
-            d3.select('#my-viz').html('Hello world');
-        </script>
-    </body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+      d3.select('#my-viz').html('Hello world');
+    </script>
+  </body>
 </html>
 ```
 
 Notes:
 
-* Go over elements of page
-* Don't talk about D3 code for now
+- Go over elements of page
+- Don't talk about D3 code for now
 
 ===
 
@@ -202,7 +246,7 @@ Notes:
 
 ### Selections
 
-* D3 uses CSS-style selectors
+- D3 uses CSS-style selectors
 
 ```js
 d3.select('#my-viz');
@@ -214,17 +258,14 @@ d3.selectAll('p span.my-class');
 
 Notes:
 
-* Ask what these will do
+- Ask what these will do
 
 ---
 
 ### Working with attributes
 
 ```js
-d3
-    .select('p')
-    .attr('class', 'red')
-    .style('color', 'red');
+d3.select('p').attr('class', 'red').style('color', 'red');
 ```
 
 Result:
@@ -235,79 +276,69 @@ Result:
 
 Notes:
 
-* `.style` is a convenience method
+- `.style` is a convenience method
 
 ---
 
 ### Data Binding
 
-* Using `selectAll.data`
+- Using `selectAll.data`
 
 ```js
-d3
-    .selectAll('p')
-    .data([10, 19, 23])
-    .html(function(d) {
-        return d;
-    })
-    .style('font-size', function(d) {
-        return d;
-    });
+d3.selectAll('p')
+  .data([10, 19, 23])
+  .html(function (d) {
+    return d;
+  })
+  .style('font-size', function (d) {
+    return d;
+  });
 ```
 
 Notes:
 
-* `.html` changes the text within the selected element tag
+- `.html` changes the text within the selected element tag
 
 ---
 
 ### Enter/Exit/Update Selections
 
-* What if you don't have the same number of data elements and DOM elements?
+- What if you don't have the same number of data elements and DOM elements?
 
 ```js
-var paragraphs = d3
-    .select('body')
-    .selectAll('p')
-    .data([25, 36, 48]);
+var paragraphs = d3.select('body').selectAll('p').data([25, 36, 48]);
 
 paragraphs
-    .enter()
-    .append('p')
-    .html(function(d) {
-        return d;
-    })
-    .style('font-size', function(d) {
-        return d;
-    })
-    .attr('class', 'enter')
-    .style('color', 'blue');
+  .enter()
+  .append('p')
+  .html(function (d) {
+    return d;
+  })
+  .style('font-size', function (d) {
+    return d;
+  })
+  .attr('class', 'enter')
+  .style('color', 'blue');
+
+paragraphs.exit().append('p').html('exit').style('font-size', 20).attr('class', 'exit').style('color', 'red');
 
 paragraphs
-    .exit()
-    .append('p')
-    .html('exit')
-    .style('font-size', 20)
-    .attr('class', 'exit')
-    .style('color', 'red');
-
-paragraphs
-    .html(function(d) {
-        return d;
-    })
-    .style('font-size', function(d) {
-        return d;
-    });
+  .html(function (d) {
+    return d;
+  })
+  .style('font-size', function (d) {
+    return d;
+  });
 ```
 
 ---
 
 ### Enter/Exit/Update cont'd
 
-* ENTER is for data elements with no corresponding DOM element
-* EXIT is for DOM elements with no corresponding data elements
-* UPDATE is for DOM elements with a corresponding data element
-* For basic data binding (no keys), you will have an ENTER or EXIT selection but not both
+- ENTER is for data elements with no corresponding DOM element
+- EXIT is for DOM elements with no corresponding data elements
+- UPDATE is for DOM elements with a corresponding data element
+- For basic data binding (no keys), you will have an ENTER or EXIT selection but not both
 
 ---
 
@@ -382,28 +413,28 @@ d3.selectAll('.a').data([1, 2, 3, 4]);
 
 ### What is SVG?
 
-* XML-based markup language (like HTML)
-* Valid within an HTML web page
-* Uses shapes to define images
+- XML-based markup language (like HTML)
+- Valid within an HTML web page
+- Uses shapes to define images
 
 ---
 
 ### The `<svg>` Element
 
-* Defines an area in which you will build your graphic
-* Origin (0,0) in upper-left corner
-* No graphical properties of its own
+- Defines an area in which you will build your graphic
+- Origin (0,0) in upper-left corner
+- No graphical properties of its own
 
 ```html
 <svg width="500" height="500"></svg>
 ```
 
-* `width`: total width of area
-* `height`: total height of area
+- `width`: total width of area
+- `height`: total height of area
 
 Notes:
 
-* Think of it as a "canvas" you'll draw on, but don't use "canvas" terminology
+- Think of it as a "canvas" you'll draw on, but don't use "canvas" terminology
 
 ---
 
@@ -411,18 +442,18 @@ Notes:
 
 ```html
 <svg>
-    <rect x="10" y="10" width="100" height="50"/>
+  <rect x="10" y="10" width="100" height="50" />
 </svg>
 ```
 
-* `x`: X-coordinate of upper-left corner of rectangle
-* `y`: Y-coordinate of upper-left corner of rectangle
-* `width`: Width of rectangle
-* `height`: Height of rectangle
+- `x`: X-coordinate of upper-left corner of rectangle
+- `y`: Y-coordinate of upper-left corner of rectangle
+- `width`: Width of rectangle
+- `height`: Height of rectangle
 
 Notes:
 
-* Mention that SVG tags only valid within SVG tag
+- Mention that SVG tags only valid within SVG tag
 
 ---
 
@@ -430,13 +461,13 @@ Notes:
 
 ```html
 <svg>
-    <circle cx="10" cy="10" r="100"/>
+  <circle cx="10" cy="10" r="100" />
 </svg>
 ```
 
-* `cx`: X-coordinate of center of circle
-* `cy`: Y-coordinate of center of circle
-* `r`: Radius
+- `cx`: X-coordinate of center of circle
+- `cy`: Y-coordinate of center of circle
+- `r`: Radius
 
 ---
 
@@ -444,14 +475,14 @@ Notes:
 
 ```html
 <svg>
-    <circle x1="0" x2="100" y1="0" y2="50"/>
+  <circle x1="0" x2="100" y1="0" y2="50" />
 </svg>
 ```
 
-* `x1`: X-coordinate of line start
-* `x2`: X-coordinate of line start
-* `y1`: Y-coordinate of line end
-* `y2`: Y-coordinate of line end
+- `x1`: X-coordinate of line start
+- `x2`: X-coordinate of line start
+- `y1`: Y-coordinate of line end
+- `y2`: Y-coordinate of line end
 
 ---
 
@@ -459,25 +490,25 @@ Notes:
 
 ```html
 <svg>
-    <text x="0" y="0">Hello world</text>
+  <text x="0" y="0">Hello world</text>
 </svg>
 ```
 
-* `x`: X-coordinate of text
-* `y`: Y-coordinate of text
+- `x`: X-coordinate of text
+- `y`: Y-coordinate of text
 
 ---
 
 ### `<text>` cont'd
 
-* `text-anchor`: Defines how to orient the text around the `X` coordinate
-  * `start`: `X` is the start of the text
-  * `middle`: `X` is the middle of the text
-  * `end`: `X` is the end of the text
-* `dominant-baseline`: Defines how to orient the text around the `Y` coordinate
-  * `baseline`: `Y` is bottom of text
-  * `central`: `Y` is middle of text
-  * `hanging`: `Y` is top of text
+- `text-anchor`: Defines how to orient the text around the `X` coordinate
+  - `start`: `X` is the start of the text
+  - `middle`: `X` is the middle of the text
+  - `end`: `X` is the end of the text
+- `dominant-baseline`: Defines how to orient the text around the `Y` coordinate
+  - `baseline`: `Y` is bottom of text
+  - `central`: `Y` is middle of text
+  - `hanging`: `Y` is top of text
 
 ---
 
@@ -485,11 +516,11 @@ Notes:
 
 ```html
 <svg>
-    <polygon points="60,20 100,40 100,80 60,100 20,80 20,40"/>
+  <polygon points="60,20 100,40 100,80 60,100 20,80 20,40" />
 </svg>
 ```
 
-* `points`: Space-seperated X,Y pairs defining the shape's points
+- `points`: Space-seperated X,Y pairs defining the shape's points
 
 ---
 
@@ -497,7 +528,7 @@ Notes:
 
 ```html
 <svg>
-    <path d="M 100 100 L 300 100 L 200 300 z"/>
+  <path d="M 100 100 L 300 100 L 200 300 z" />
 </svg>
 ```
 
@@ -505,19 +536,19 @@ Notes:
 
 ### `<path>` cont'd
 
-* `d`: Description of path (like a pencil drawing)
-  * `M [X] [Y]`: Pick up pencil and move to the (X, Y) coordinate of SVG
-  * `m [X] [Y]`: Pick up pencil and move to a point `X` pixels to the right of and `Y` pixels below the previous point
-  * `L [X] [Y]`: Draw a line from the previous point to the (X, Y) coordinate of SVG
-  * `l [X] [Y]`: Draw a line from the previous point to a point `X` pixels to the right of and `Y` pixels below the previous point
+- `d`: Description of path (like a pencil drawing)
+  - `M [X] [Y]`: Pick up pencil and move to the (X, Y) coordinate of SVG
+  - `m [X] [Y]`: Pick up pencil and move to a point `X` pixels to the right of and `Y` pixels below the previous point
+  - `L [X] [Y]`: Draw a line from the previous point to the (X, Y) coordinate of SVG
+  - `l [X] [Y]`: Draw a line from the previous point to a point `X` pixels to the right of and `Y` pixels below the previous point
 
 ---
 
 ### `<path>` cont'd
 
-* `d` (cont'd)
-  * `z`: Draw a line from the previous point to the first point
-  * Others...
+- `d` (cont'd)
+  - `z`: Draw a line from the previous point to the first point
+  - Others...
 
 ---
 
@@ -525,10 +556,10 @@ Notes:
 
 ```html
 <svg>
-    <g>
-        <rect x="10" y="10" width="100" height="50"/>
-        <text x="55" y="30" text-anchor="middle">Hello world</text>
-    </g>
+  <g>
+    <rect x="10" y="10" width="100" height="50" />
+    <text x="55" y="30" text-anchor="middle">Hello world</text>
+  </g>
 </svg>
 ```
 
@@ -536,43 +567,43 @@ Used to group other SVG elements together
 
 Notes:
 
-* Useful for semantic purposes but also for transformations
+- Useful for semantic purposes but also for transformations
 
 ---
 
 ### SVG Transforms
 
-* `transform`: Changes various aspects of the element
-  * `translate(X, Y)`: Moves the element relative to its own defined position
-  * `scale(X [, Y])`: Scales the element's size (1 = no change) in the X and Y directions
-  * `rotate(A [, X, Y])`: Rotates element `A` degrees around the origin (or the point (`X`, `Y`))
-  * Other...
+- `transform`: Changes various aspects of the element
+  - `translate(X, Y)`: Moves the element relative to its own defined position
+  - `scale(X [, Y])`: Scales the element's size (1 = no change) in the X and Y directions
+  - `rotate(A [, X, Y])`: Rotates element `A` degrees around the origin (or the point (`X`, `Y`))
+  - Other...
 
 ---
 
 ### SVG Transforms (cont'd)
 
-* Transforms are applied in order for RIGHT to LEFT
+- Transforms are applied in order for RIGHT to LEFT
 
 ```html
 <svg width="100" height="100">
-    <circle cx="50" cy="50" r="25" transform="translate(-50, -50) scale(2)" />
+  <circle cx="50" cy="50" r="25" transform="translate(-50, -50) scale(2)" />
 </svg>
 ```
 
 Notes:
 
-* End up with 50-radius circle centered at (50,50)
+- End up with 50-radius circle centered at (50,50)
 
 ---
 
 ### SVG styling
 
-* `fill`: Fill color of element
-* `stroke`: Border color of element
-* `stroke-width`: Border width
-* `stroke-dasharray`: Border dash definition (e.g. `3 3`)
-* `style`: To add other generic CSS attributes
+- `fill`: Fill color of element
+- `stroke`: Border color of element
+- `stroke-width`: Border width
+- `stroke-dasharray`: Border dash definition (e.g. `3 3`)
+- `style`: To add other generic CSS attributes
 
 ===
 
@@ -593,17 +624,17 @@ Using D3:
 
 ### Cool Tools
 
-* Chrome Developer Tools
-* [SVG Cheat Sheet](https://learn-the-web.algonquindesign.ca/topics/svg-cheat-sheet/)
-* [MDN SVG Reference](https://developer.mozilla.org/en-US/docs/Web/SVG)
-* [D3 API Reference](https://github.com/d3/d3/blob/master/API.md)
+- Chrome Developer Tools
+- [SVG Cheat Sheet](https://learn-the-web.algonquindesign.ca/topics/svg-cheat-sheet/)
+- [MDN SVG Reference](https://developer.mozilla.org/en-US/docs/Web/SVG)
+- [D3 API Reference](https://github.com/d3/d3/blob/master/API.md)
 
 ===
 
 ### Assignment 3
 
-* [Details](https://github.com/linusmarco/d3-training/blob/master/src/materials/Week%203/Assignment/Assignment%203.md)
-* Find a dataset for final project
+- [Details](https://github.com/linusmarco/d3-training/blob/master/src/materials/Week%203/Assignment/Assignment%203.md)
+- Find a dataset for final project
 
 ---
 
